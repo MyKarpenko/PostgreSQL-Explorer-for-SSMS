@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <Extern href="stdidcmd.h" />
+  <Extern href="vsshlids.h" />
+  <Include href="KnownImageIds.vsct" />
+  <Include href="VSGlobals.vsct" />
+
+  <Commands package="guidSsmsPgExplorerPackage">
+    <Groups>
+      <Group guid="guidSsmsPgExplorerCmdSet" id="ToolsGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+      </Group>
+    </Groups>
+
+    <Buttons>
+      <Button guid="guidSsmsPgExplorerCmdSet" id="cmdidShowRegisteredServers" priority="0x0100" type="Button">
+        <Parent guid="guidSsmsPgExplorerCmdSet" id="ToolsGroup" />
+        <Icon guid="ImageCatalogGuid" id="Database" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>PostgreSQL Registered Servers</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidSsmsPgExplorerCmdSet" id="cmdidNewPgQuery" priority="0x0101" type="Button">
+        <Parent guid="guidSsmsPgExplorerCmdSet" id="ToolsGroup" />
+        <Icon guid="ImageCatalogGuid" id="NewQuery" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>New PostgreSQL Query...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidSsmsPgExplorerCmdSet" id="cmdidAttachObjectExplorer" priority="0x0102" type="Button">
+        <Parent guid="guidSsmsPgExplorerCmdSet" id="ToolsGroup" />
+        <Icon guid="ImageCatalogGuid" id="Refresh" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Re-attach PostgreSQL to Object Explorer</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <CommandPlacements>
+    <!-- Also under View, next to Registered Servers / Object Explorer -->
+    <CommandPlacement guid="guidSsmsPgExplorerCmdSet" id="cmdidShowRegisteredServers" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_VIEW_DEV_WINDOWS" />
+    </CommandPlacement>
+  </CommandPlacements>
+
+  <Symbols>
+    <GuidSymbol name="guidSsmsPgExplorerPackage" value="{3B8F2C61-7A4D-4E95-B0C2-5D1E8F6A9B37}" />
+    <GuidSymbol name="guidSsmsPgExplorerCmdSet" value="{A6D41E28-3C9B-47F0-8E15-2B7C9D4F6E83}">
+      <IDSymbol name="ToolsGroup" value="0x1020" />
+      <IDSymbol name="cmdidShowRegisteredServers" value="0x0100" />
+      <IDSymbol name="cmdidNewPgQuery" value="0x0101" />
+      <IDSymbol name="cmdidAttachObjectExplorer" value="0x0102" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>

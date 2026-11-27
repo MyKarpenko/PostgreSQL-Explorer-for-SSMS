@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>17.0</MinimumVisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <!-- SSMS 22 install; override with /p:SsmsIdeDir=... on build agents -->
+    <SsmsIdeDir Condition="'$(SsmsIdeDir)' == ''">C:\Program Files\Microsoft SQL Server Management Studio 22\Release\Common7\IDE</SsmsIdeDir>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{5E0C7A3B-2D41-4B8E-9F6A-1C3D5E7F9A21}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SsmsPgExplorer</RootNamespace>
+    <AssemblyName>SsmsPgExplorer</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>latest</LangVersion>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <UseCodebase>true</UseCodebase>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
+    <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
+    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
+    <CreateVsixContainer>true</CreateVsixContainer>
+    <DeployExtension>false</DeployExtension>
+    <TargetVsixContainerName>SsmsPgExplorer.vsix</TargetVsixContainerName>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(SsmsIdeDir)\Ssms.exe</StartProgram>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="source.extension.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>source.extension.vsixmanifest</DependentUpon>
+    </Compile>
+    <Compile Include="VSCommandTable.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VSCommandTable.vsct</DependentUpon>
+    </Compile>
+    <Compile Include="SsmsPgExplorerPackage.cs" />
+    <Compile Include="Commands\ShowRegisteredServersCommand.cs" />
+    <Compile Include="Commands\NewPgQueryCommand.cs" />
+    <Compile Include="Commands\AttachObjectExplorerCommand.cs" />
+    <Compile Include="Model\ServerRegistration.cs" />
+    <Compile Include="Model\ServerStore.cs" />
+    <Compile Include="Connection\CredentialStore.cs" />
+    <Compile Include="Connection\AwsCli.cs" />
+    <Compile Include="Connection\ConnectionFactory.cs" />
+    <Compile Include="Connection\PgCatalog.cs" />
+    <Compile Include="ObjectExplorer\Icons.cs" />
+    <Compile Include="ObjectExplorer\ObjectExplorerBridge.cs" />
+    <Compile Include="ObjectExplorer\PgNode.cs" />
+    <Compile Include="ObjectExplorer\PgNodes.cs" />
+    <Compile Include="RegisteredServers\RegisteredServersWindow.cs" />
+    <Compile Include="RegisteredServers\RegisteredServersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RegisteredServers\ServerDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegisteredServers\PasswordPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Query\QueryWindow.cs" />
+    <Compile Include="Query\QueryControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Query\QueryRunner.cs" />
+    <Compile Include="Query\SqlSplitter.cs" />
+    <Compile Include="Query\SqlFormatter.cs" />
+    <Compile Include="Query\ResultGrid.cs" />
+    <Compile Include="Plans\PlanModel.cs" />
+    <Compile Include="Plans\PlanGraph.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Plans\PlanView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Scripting\ScriptingOptions.cs" />
+    <Compile Include="Scripting\TableScripter.cs" />
+    <Compile Include="Activity\ActivityWindow.cs" />
+    <Compile Include="Activity\ActivityControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Theme.cs" />
+    <Compile Include="UI\SsmsSettings.cs" />
+    <Compile Include="UI\ClickThroughToolStrip.cs" />
+    <Compile Include="Diagnostics\Log.cs" />
+    <Compile Include="Import\Importers.cs" />
+    <Compile Include="Import\ImportDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Licensing: our MIT license (shown by the VSIX installer) and the notices for redistributed components. -->
+    <Content Include="..\..\LICENSE.txt">
+      <Link>LICENSE.txt</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\THIRD-PARTY-NOTICES.txt">
+      <Link>THIRD-PARTY-NOTICES.txt</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+      <Generator>VsixManifestGenerator</Generator>
+      <LastGenOutput>source.extension.cs</LastGenOutput>
+    </None>
+    <VSCTCompile Include="VSCommandTable.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+      <Generator>VsctGenerator</Generator>
+      <LastGenOutput>VSCommandTable.cs</LastGenOutput>
+    </VSCTCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <!-- SSMS 22 Object Explorer surface. Compile-time only: SSMS supplies these at runtime. -->
+    <Reference Include="SqlWorkbench.Interfaces">
+      <HintPath>$(SsmsIdeDir)\SqlWorkbench.Interfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ObjectExplorer">
+      <HintPath>$(SsmsIdeDir)\ObjectExplorer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SqlMgmt">
+      <HintPath>$(SsmsIdeDir)\sqlmgmt.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.14.40265" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.14.2120">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Community.VisualStudio.Toolkit.17" Version="17.0.533" ExcludeAssets="Runtime" />
+    <PackageReference Include="Community.VisualStudio.VSCT" Version="16.0.29.6" PrivateAssets="all" />
+    <!-- 8.x is the last Npgsql line with a netstandard2.0 build (runs on .NET Framework 4.8).
+         SSMS.exe.config binding-redirects all of its BCL dependencies to SSMS's own 10.x copies. -->
+    <PackageReference Include="Npgsql" Version="8.0.6" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+</Project>
